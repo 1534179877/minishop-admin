@@ -1,5 +1,5 @@
 <template>
-  <div v-for="floor in data" :key="floor.title">
+  <div v-for="floor in data" :key="floor._id">
     <h2>{{ floor.floor_title.name }}</h2>
     <el-table :data="floor.product_list">
       <el-table-column prop="name" label="name" width="100" />
@@ -16,10 +16,13 @@
       <el-table-column prop="open_type" label="open_type" width="120" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default="scope">
-          <el-button type="text" size="small" @click="updaterow(scope.row)"
+          <el-button
+            type="text"
+            size="small"
+            @click="updaterow(scope.row, floor)"
             >修改</el-button
           >
-          <el-button type="text" size="small" @click="log">删除</el-button>
+          <el-button type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -31,6 +34,9 @@
     </template>
     <template #default>
       <el-form>
+        <el-form-item label="楼层名字">
+          <el-input placeholder="输入名字" v-model="floorname" />
+        </el-form-item>
         <el-form-item label="商品名字">
           <el-input placeholder="输入名字" v-model="name" />
         </el-form-item>
@@ -84,14 +90,16 @@ let activerow = reactive({
   open_type: '',
   navigator_url: '',
   _id: '',
+  floorname: '',
 });
-const { name, open_type } = toRefs(activerow);
-
+let floorid = ref('');
+const { name, open_type, floorname } = toRefs(activerow);
 let update = ref(false);
 
 const { data } = toRefs(floorData);
 function initTable() {
   getfloor().then((res) => {
+    console.log(res);
     floorData.data = res.data.message;
   });
 }
@@ -106,7 +114,7 @@ function cancelClick() {
 function confirmClick() {
   ElMessageBox.confirm(`确定提交吗 ?`)
     .then(() => {
-      updatefloor(activerow)
+      updatefloor(activerow, floorid)
         .then((res) => {
           console.log(res);
           ElMessage({ type: 'success', message: '修改成功！' });
@@ -120,14 +128,18 @@ function confirmClick() {
     });
 }
 
-function updaterow(scope) {
+function updaterow(scope, floor) {
+  console.log(floor); // 修改的floor
+  console.log(scope); //修改的row
   //结构赋值
   const { name, open_type, navigator_url, image_src, _id } = scope;
+  floorid = floor._id;
   activerow.name = name;
   activerow.open_type = open_type;
   activerow.navigator_url = navigator_url;
   activerow.image_src = image_src;
   activerow._id = _id;
+  activerow.floorname = floor.floor_title.name;
   update.value = true;
 }
 

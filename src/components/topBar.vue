@@ -23,7 +23,7 @@
       <div class="user_cont">
         <h3 style="margin-right: 3px">{{ userName }}</h3>
         <el-avatar :size="50" :src="circleUrl" :fit="fill" />
-        <el-button>loginout</el-button>
+        <el-button @click="loginout">loginout</el-button>
       </div>
     </div>
   </el-header>
@@ -38,11 +38,13 @@ const router = useRouter();
 //状态管理
 const userName = computed(() => store.getters.getUserInfo);
 
-const circleUrl =
-  'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png';
+const circleUrl = 'http://localhost:8080/src/assets/header.png';
 
 function gotomain() {
   router.push('/admin');
+}
+function loginout() {
+  router.push('/');
 }
 </script>
 

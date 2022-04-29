@@ -15,13 +15,12 @@ export function updateswiper(swiper) {
     },
   });
 }
-
-export function updatefloor(swiper) {
+export function deleteswiper(id) {
   return request({
     method: 'post',
-    url: '/home/updatefloor',
+    url: '/home/deleteswiper',
     data: {
-      swiper: swiper,
+      id,
     },
   });
 }
@@ -30,5 +29,31 @@ export function getfloor() {
   return request({
     method: 'get',
     url: '/home/floordata',
+  });
+}
+export function updatefloor(target, id) {
+  return request({
+    method: 'post',
+    url: '/home/updatefloor',
+    data: {
+      id,
+      target,
+    },
+  });
+}
+
+export function getgoods() {
+  return request({
+    method: 'get',
+    url: '/categories',
+  });
+}
+export function updategoods(activedata) {
+  return request({
+    method: 'post',
+    url: '/categories/update',
+    data: {
+      activedata,
+    },
   });
 }

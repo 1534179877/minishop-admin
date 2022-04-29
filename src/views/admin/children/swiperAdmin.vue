@@ -17,7 +17,9 @@
         <el-button type="text" size="small" @click="updaterow(scope.row)"
           >修改</el-button
         >
-        <el-button type="text" size="small" @click="log">删除</el-button>
+        <el-button type="text" size="small" @click="deleterow(scope.row)"
+          >删除</el-button
+        >
       </template>
     </el-table-column>
   </el-table>
@@ -67,7 +69,7 @@
 </template>
 
 <script setup>
-import { getswiper, updateswiper } from '@/network/goods';
+import { deleteswiper, getswiper, updateswiper } from '@/network/goods';
 import { reactive, ref, toRefs } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Download } from '@element-plus/icons-vue';
@@ -95,9 +97,6 @@ function initTable() {
   });
 }
 initTable();
-function log() {
-  console.log(activerow);
-}
 //点击取消
 function cancelClick() {
   update.value = false;
@@ -129,6 +128,24 @@ function updaterow(scope) {
   activerow.image_src = image_src;
   activerow._id = _id;
   update.value = true;
+}
+
+function deleterow(scope) {
+  console.log(scope);
+  ElMessageBox.confirm(`确定删除吗，删除了就回不来咯 ！`)
+    .then(() => {
+      deleteswiper(scope._id)
+        .then((res) => {
+          console.log(res);
+          ElMessage({ type: 'success', message: '删除成功！' });
+          initTable();
+        })
+        .catch(() => {});
+      update.value = false;
+    })
+    .catch(() => {
+      // catch error
+    });
 }
 //文件上传前验证
 function beforeUpload(file) {
