@@ -37,27 +37,38 @@
 </template>
 
 <script setup>
+// setup 是vue3.2 的一个全新语法 可以查阅相关写论文
 import { reactive } from 'vue';
+//引入  login这个接口
 import { login } from '@/network/user';
-import { ElMessage } from 'element-plus';
+//setup中使用 store 和 router
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+//引入 element-plus 的组件
+import { ElMessage } from 'element-plus';
 import { User, Lock } from '@element-plus/icons-vue';
 
+// 实例化
 const store = useStore();
 const router = useRouter();
-
+// 创建响应式的user Info
 const userInfo = reactive({
   userName: '',
   password: '',
 });
-
+//点击提交  触发的函数
 const submit = () => {
+  //使用接口
   login(userInfo.userName, userInfo.password)
     .then((res) => {
-      console.log(res);
+      /**   接口成功就使用then  res 是返回的数据
+       *   上面这个只是说 接口成功
+       *   后端定义 200  是代表 数据操作成功
+       **/
       if (res.data.status == 200) {
+        //保存用户信息到仓库中 ，用于数据持久化
         store.commit('setUserInfo', userInfo);
+        //路由跳转  跳转到其他页面
         router.push('/admin/user');
       } else {
         ElMessage({

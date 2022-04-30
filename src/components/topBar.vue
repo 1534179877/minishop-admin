@@ -7,15 +7,15 @@
         mode="horizontal"
       >
         <el-menu-item index="1" route="/admin" @click="gotomain"
-          >商城管理</el-menu-item
+          >minishop管理端</el-menu-item
         >
-        <el-sub-menu index="2">
+        <!--        <el-sub-menu index="2">
           <template #title>看板</template>
           <el-menu-item index="2-1">item one</el-menu-item>
           <el-menu-item index="2-2">item two</el-menu-item>
           <el-menu-item index="2-3">item three</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="3">Info</el-menu-item>
+        <el-menu-item index="3">Info</el-menu-item>-->
         <el-menu-item index="4">Orders</el-menu-item>
       </el-menu>
     </div>
@@ -38,7 +38,7 @@ const router = useRouter();
 //状态管理
 const userName = computed(() => store.getters.getUserInfo);
 
-const circleUrl = 'http://localhost:8080/src/assets/header.png';
+const circleUrl = 'http://localhost:7001/upload/header.jpg';
 
 function gotomain() {
   router.push('/admin');

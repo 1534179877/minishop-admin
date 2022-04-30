@@ -19,7 +19,9 @@
         <el-button type="text" size="small" @click="updaterow(scope)"
           >修改</el-button
         >
-        <el-button type="text" size="small">删除</el-button>
+        <el-button type="text" size="small" @click="deleterow(scope.row)"
+          >删除</el-button
+        >
       </template>
     </el-table-column>
   </el-table>
@@ -80,7 +82,7 @@
 
 <script setup>
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { getgoods, updategoods } from '@/network/goods';
+import { deletegoods, getgoods, updategoods } from '@/network/goods';
 import { toRefs, reactive, ref } from 'vue';
 
 let goodsData = reactive({
@@ -111,6 +113,7 @@ function cancelClick() {
 }
 //点击确认
 function confirmClick() {
+  //elmessagebox 是有确认和取消的那个框 确定 就走then 不确定就走catch
   ElMessageBox.confirm(`确定提交吗 ?`)
     .then(() => {
       updategoods(activedata)
@@ -134,6 +137,14 @@ function updaterow(scope) {
   activedata.cat_pid = scope.row.cat_pid;
   activedata.cat_icon = scope.row.cat_icon;
   update.value = true;
+}
+
+function deleterow(scope) {
+  console.log(scope);
+  deletegoods(scope).then((res) => {
+    console.log(res);
+    initTable();
+  });
 }
 
 //文件上传前验证

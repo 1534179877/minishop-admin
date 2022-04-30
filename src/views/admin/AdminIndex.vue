@@ -1,7 +1,9 @@
 <template>
   <el-container class="menu-container">
+    <!--  topbar   -->
     <el-header><topbar /></el-header>
     <el-container>
+      <!-- 边框栏     -->
       <el-aside width="200px">
         <el-menu
           active-text-color="#60A0F2"
@@ -37,6 +39,7 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
+      <!--      主要内容区域-   各个模块管理在这里进行变化   就是children中的-->
       <el-main>
         <router-view />
       </el-main>

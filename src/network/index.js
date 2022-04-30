@@ -5,7 +5,7 @@ const BaseUrl = 'http://localhost:7001';
 
 const service = axios.create({
   baseURL: BaseUrl,
-  timeout: 5000,
+  //timeout: 10000,
 });
 
 export function request(config) {

@@ -1,4 +1,5 @@
 <template>
+  <!--  主要模块  -->
   <div v-for="floor in data" :key="floor._id">
     <h2>{{ floor.floor_title.name }}</h2>
     <el-table :data="floor.product_list">
@@ -22,12 +23,17 @@
             @click="updaterow(scope.row, floor)"
             >修改</el-button
           >
-          <el-button type="text" size="small">删除</el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click="deleterow(scope.row, floor)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
   </div>
-
+  <!--更新的弹窗框  -->
   <el-drawer v-model="update" direction="rtl">
     <template #title>
       <h4>更新</h4>
@@ -59,7 +65,7 @@
             </div>
             <template #tip>
               <div class="el-upload__tip">
-                jpg/png files with a size less than 500kb
+                jpg/png files with a size less than 3MB
               </div>
             </template>
           </el-upload>
@@ -76,14 +82,15 @@
 </template>
 
 <script setup>
-import { getfloor, updatefloor } from '@/network/goods';
+import { deletefloor, getfloor, updatefloor } from '@/network/goods';
 import { reactive, ref, toRefs } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-// eslint-disable-next-line no-unused-vars
 
+//table 表格的数据定义 是个数组 用对象进行包裹进行响应式
 let floorData = reactive({
   data: [],
 });
+//  更新的data属性和相关数据 会传递给后端
 let activerow = reactive({
   name: '',
   image_src: '',
@@ -92,20 +99,23 @@ let activerow = reactive({
   _id: '',
   floorname: '',
 });
+// 获取更新时的楼层id
 let floorid = ref('');
-const { name, open_type, floorname } = toRefs(activerow);
+// 定义一个 boolean  用来判断更新弹出框是否弹出
 let update = ref(false);
-
+//解构赋值  将activerow 中的对应属性从对象中解构出来   方便使用
+//  不解构： activerow.name  解构：name
+const { name, open_type, floorname } = toRefs(activerow);
 const { data } = toRefs(floorData);
+//初始化表格函数
 function initTable() {
   getfloor().then((res) => {
     console.log(res);
     floorData.data = res.data.message;
   });
 }
-
+//执行初始化
 initTable();
-
 //点击取消
 function cancelClick() {
   update.value = false;
@@ -127,7 +137,7 @@ function confirmClick() {
       // catch error
     });
 }
-
+//顶级更新按钮  获取 当前行数据 并赋值给activerow
 function updaterow(scope, floor) {
   console.log(floor); // 修改的floor
   console.log(scope); //修改的row
@@ -142,12 +152,26 @@ function updaterow(scope, floor) {
   activerow.floorname = floor.floor_title.name;
   update.value = true;
 }
+// 点击删除
+function deleterow(scope, floor) {
+  //删除接口
+  deletefloor(scope, floor)
+    .then((res) => {
+      console.log(res);
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      });
+      initTable();
+    })
+    .caatch(() => {});
+}
 
-//文件上传前验证
+//文件上传前的验证函数
 function beforeUpload(file) {
   const teststr = RegExp('image/[j,p][p,n][e]*[g]');
-  const isType = teststr.test(file.type);
-  const isLt1M = file.size / 1024 / 1024 < 3; //文件大小 3MB
+  const isType = teststr.test(file.type); //类型验证
+  const isLt1M = file.size / 1024 / 1024 < 3; //文件大小验证 3MB
   if (!isType) {
     this.$message.error('格式只能是jpg/jpeg/png格式!');
     return false;
