@@ -21,20 +21,32 @@
           </el-menu-item>
           <el-menu-item index="goods">
             <template #title>
-              <el-icon><Goods /></el-icon>
-              <span>商品管理</span>
+              <el-icon><Menu /></el-icon>
+              <span>分类</span>
             </template>
           </el-menu-item>
           <el-menu-item index="swiper">
             <template #title>
-              <el-icon><Goods /></el-icon>
+              <el-icon><document-copy /></el-icon>
               <span>轮播图</span>
             </template>
           </el-menu-item>
           <el-menu-item index="floor">
             <template #title>
-              <el-icon><Goods /></el-icon>
+              <el-icon><Fold /></el-icon>
               <span>楼层</span>
+            </template>
+          </el-menu-item>
+          <el-menu-item index="item">
+            <template #title>
+              <el-icon><Goods /></el-icon>
+              <span>商品</span>
+            </template>
+          </el-menu-item>
+          <el-menu-item index="order">
+            <template #title>
+              <el-icon><Sell /></el-icon>
+              <span>订单</span>
             </template>
           </el-menu-item>
         </el-menu>
@@ -49,7 +61,14 @@
 
 <script setup>
 import topbar from '@/components/topBar';
-import { User, Goods } from '@element-plus/icons-vue';
+import {
+  User,
+  Goods,
+  Sell,
+  Menu,
+  Fold,
+  DocumentCopy,
+} from '@element-plus/icons-vue';
 </script>
 
 <style scoped lang="scss">

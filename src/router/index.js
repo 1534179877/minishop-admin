@@ -28,6 +28,14 @@ const routes = [
         path: '/admin/floor',
         component: () => import('@/views/admin/children/floorAdmin'),
       },
+      {
+        path: '/admin/item',
+        component: () => import('@/views/admin/children/itemAdmin'),
+      },
+      {
+        path: '/admin/order',
+        component: () => import('@/views/admin/children/orderAdmin'),
+      },
     ],
   },
   {

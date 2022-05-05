@@ -83,3 +83,36 @@ export function deletegoods(scope) {
     },
   });
 }
+export function getitem() {
+  return request({
+    method: 'get',
+    url: '/goods/getgoods',
+  });
+}
+
+export function updateitem(activedata) {
+  return request({
+    method: 'post',
+    url: '/goods/updateitem',
+    data: {
+      activedata,
+    },
+  });
+}
+
+export function getorder() {
+  return request({
+    method: 'get',
+    url: '/goods/getorder',
+  });
+}
+
+export function updateorder(activedata) {
+  return request({
+    method: 'post',
+    url: '/goods/updateorder',
+    data: {
+      activedata,
+    },
+  });
+}
