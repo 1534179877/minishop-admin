@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="img">
-      <img alt="" src="../../../../zhibo/vue-danmu/src/assets/img/11.png" />
+      <img alt="" src="../assets/11.png" />
       <h1>微信商城管理端</h1>
     </div>
 

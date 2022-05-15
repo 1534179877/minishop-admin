@@ -1,10 +1,11 @@
 <template>
   <!--  主要模块  -->
+  <el-button @click="add = !add">新增</el-button>
   <div v-for="floor in data" :key="floor._id">
     <h2>{{ floor.floor_title.name }}</h2>
     <el-table :data="floor.product_list">
       <el-table-column prop="name" label="name" width="100" />
-      <el-table-column prop="navigator_url" label="navigator_url" width="220" />
+      <!--      <el-table-column prop="navigator_url" label="navigator_url" width="220" />-->
       <el-table-column prop="image_src" label="image_src" width="120">
         <template #default="scope">
           <img
@@ -33,6 +34,61 @@
       </el-table-column>
     </el-table>
   </div>
+  <el-drawer v-model="add" direction="ttb" size="50%">
+    <template #title>
+      <h4>添加</h4>
+    </template>
+    <template #default>
+      <el-form>
+        <el-form-item label="分区">
+          <el-select v-model="newdata.floorname" placeholder="选择分区">
+            <el-option label="女装" value="女装" />
+            <el-option label="首饰" value="首饰" />
+            <el-option label="箱包配饰" value="箱包配饰" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="命名">
+          <el-input placeholder="输入名字" v-model="newdata.name" />
+        </el-form-item>
+        <el-form-item label="打开方式">
+          <el-select v-model="newdata.open_type" placeholder="选择打开方式">
+            <el-option label="navigate" value="navigate" />
+            <el-option label="normal" value="normal" />
+            <el-option label="test" value="test" />
+            <el-option label="smail" value="smail" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="修改图片">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="http://localhost:7001/upload"
+            multiple
+            :on-success="success"
+            :on-error="error"
+            :before-upload="beforeUpload"
+          >
+            <el-icon class="el-icon--upload"><download /></el-icon>
+            <div class="el-upload__text">
+              Drop file here or <em>click to upload</em>
+            </div>
+            <template #tip>
+              <div class="el-upload__tip">
+                jpg/png files with a size less than 3MB
+              </div>
+            </template>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <!-- 三级 -->
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="cancelClick2">取消</el-button>
+        <el-button type="primary" @click="confirmClick2">提交</el-button>
+      </div>
+    </template>
+  </el-drawer>
   <!--更新的弹窗框  -->
   <el-drawer v-model="update" direction="rtl">
     <template #title>
@@ -99,10 +155,20 @@ let activerow = reactive({
   _id: '',
   floorname: '',
 });
+
+let newdata = reactive({
+  name: '',
+  image_src: '',
+  open_type: '',
+  navigator_url: '',
+  _id: '',
+  floorname: '',
+});
 // 获取更新时的楼层id
 let floorid = ref('');
 // 定义一个 boolean  用来判断更新弹出框是否弹出
 let update = ref(false);
+let add = ref(false);
 //解构赋值  将activerow 中的对应属性从对象中解构出来   方便使用
 //  不解构： activerow.name  解构：name
 const { name, open_type, floorname } = toRefs(activerow);
@@ -116,6 +182,28 @@ function initTable() {
 }
 //执行初始化
 initTable();
+
+/*function adddata() {
+  add.value = !add.value;
+}*/
+
+function cancelClick2() {
+  add.value = !add.value;
+}
+function confirmClick2() {
+  ElMessageBox.confirm(`确定提交吗 ?`)
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '增加成功',
+      });
+      add.value = !add.value;
+    })
+    .catch(() => {
+      // catch error
+    });
+}
+
 //点击取消
 function cancelClick() {
   update.value = false;

@@ -1,4 +1,7 @@
 <template>
+  <el-button @click="adddata(0)">新增一级</el-button>
+  <el-button @click="adddata(1)">新增二级</el-button
+  ><el-button @click="adddata(2)">新增三级</el-button>
   <el-table :data="data" row-key="cat_id" lazy border stripe>
     <el-table-column prop="cat_id" label="cat_id" sortable width="180" />
     <el-table-column prop="cat_name" label="cat_Name" width="180" />
@@ -25,7 +28,67 @@
       </template>
     </el-table-column>
   </el-table>
-
+  <el-drawer v-model="add" direction="ttb" size="60%">
+    <template #title>
+      <h4>更新</h4>
+    </template>
+    <template #default>
+      <!-- 一级 -->
+      <el-form v-if="addlevel == 0">
+        <el-form-item label="一级菜单名字">
+          <el-input placeholder="输入名字" v-model="cat_name" />
+        </el-form-item>
+      </el-form>
+      <!-- 二级 -->
+      <el-form v-else-if="addlevel == 1">
+        <el-form-item label="一级菜单名字">
+          <el-input placeholder="输入名字" v-model="cat_name" />
+        </el-form-item>
+        <el-form-item label="二级菜单名字">
+          <el-input placeholder="输入名字" v-model="cat_name" />
+        </el-form-item>
+      </el-form>
+      <!-- 三级 -->
+      <el-form v-else>
+        <el-form-item label="一级菜单名字">
+          <el-input placeholder="输入名字" v-model="cat_name" />
+        </el-form-item>
+        <el-form-item label="二级菜单名字">
+          <el-input placeholder="输入名字" v-model="cat_name" />
+        </el-form-item>
+        <el-form-item label="三级菜单名字">
+          <el-input placeholder="输入名字" v-model="cat_name" />
+        </el-form-item>
+        <el-form-item label="修改图片">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="http://localhost:7001/upload"
+            multiple
+            :on-success="success"
+            :on-error="error"
+            :before-upload="beforeUpload"
+          >
+            <el-icon class="el-icon--upload"><download /></el-icon>
+            <div class="el-upload__text">
+              Drop file here or <em>click to upload</em>
+            </div>
+            <template #tip>
+              <div class="el-upload__tip">
+                jpg/png files with a size less than 3MB
+              </div>
+            </template>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="cancelClick2">取消</el-button>
+        <el-button type="primary" @click="confirmClick2">提交</el-button>
+      </div>
+    </template>
+  </el-drawer>
   <el-drawer v-model="update" direction="rtl">
     <template #title>
       <h4>更新</h4>
@@ -98,6 +161,8 @@ let activedata = reactive({
 const { data } = toRefs(goodsData);
 let { cat_level, cat_name } = toRefs(activedata);
 let update = ref(false);
+let add = ref(false);
+let addlevel = ref(0);
 
 function initTable() {
   getgoods().then((res) => {
@@ -106,6 +171,28 @@ function initTable() {
   });
 }
 initTable();
+
+function adddata(level) {
+  addlevel.value = level;
+  add.value = !add.value;
+}
+
+function cancelClick2() {
+  add.value = !add.value;
+}
+function confirmClick2() {
+  ElMessageBox.confirm(`确定提交吗 ?`)
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '增加成功',
+      });
+      add.value = !add.value;
+    })
+    .catch(() => {
+      // catch error
+    });
+}
 
 //点击取消
 function cancelClick() {

@@ -1,4 +1,5 @@
 <template>
+  <el-button @click="add = !add">新增</el-button>
   <el-table :data="data">
     <el-table-column prop="goods_name" label="商品名字" width="100">
       <template #default="scope">
@@ -58,6 +59,57 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-drawer v-model="add" direction="ttb" size="60%">
+    <template #title>
+      <h4>更新</h4>
+    </template>
+    <template #default>
+      <el-form>
+        <el-form-item label="一级分类">
+          <el-input placeholder="输入id" v-model="cat_one_id" />
+        </el-form-item>
+        <el-form-item label="二级分类">
+          <el-input placeholder="输入id" v-model="cat_two_id" />
+        </el-form-item>
+        <el-form-item label="三级分类">
+          <el-input placeholder="输入id" v-model="cat_three_id" />
+        </el-form-item>
+        <el-form-item label="商品名字">
+          <el-input placeholder="输入id" v-model="goods_name" />
+        </el-form-item>
+        <el-form-item label="商品价格">
+          <el-input placeholder="输入打开方式" v-model="goods_price" />
+        </el-form-item>
+        <el-form-item label="修改图片">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="http://localhost:7001/upload"
+            multiple
+            :on-success="success"
+            :on-error="error"
+            :before-upload="beforeUpload"
+          >
+            <el-icon class="el-icon--upload"><download /></el-icon>
+            <div class="el-upload__text">
+              Drop file here or <em>click to upload</em>
+            </div>
+            <template #tip>
+              <div class="el-upload__tip">
+                jpg/png files with a size less than 500kb
+              </div>
+            </template>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="cancelClick2">取消</el-button>
+        <el-button type="primary" @click="confirmClick2">提交</el-button>
+      </div>
+    </template>
+  </el-drawer>
 
   <el-drawer v-model="update" direction="rtl">
     <template #title>
@@ -118,6 +170,7 @@ import { reactive, ref, toRefs } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 const update = ref(false);
+const add = ref(false);
 let itemData = reactive({
   data: [],
 });
@@ -140,6 +193,27 @@ function initTable() {
   });
 }
 initTable();
+
+/*function adddata() {
+  add.value = !add.value;
+}*/
+
+function cancelClick2() {
+  add.value = !add.value;
+}
+function confirmClick2() {
+  ElMessageBox.confirm(`确定提交吗 ?`)
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '增加成功',
+      });
+      add.value = !add.value;
+    })
+    .catch(() => {
+      // catch error
+    });
+}
 
 function cancelClick() {
   update.value = false;

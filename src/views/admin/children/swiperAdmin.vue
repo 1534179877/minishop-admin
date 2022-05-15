@@ -1,7 +1,8 @@
 <template>
+  <el-button @click="add = !add">新增</el-button>
   <el-table :data="data">
     <el-table-column prop="goods_id" label="goods_id" width="100" />
-    <el-table-column prop="navigator_url" label="navigator_url" width="220" />
+    <!--    <el-table-column prop="navigator_url" label="navigator_url" width="220" />-->
     <el-table-column prop="image_src" label="image_src" width="120">
       <template #default="scope">
         <img
@@ -24,6 +25,53 @@
     </el-table-column>
   </el-table>
 
+  <el-drawer v-model="add" direction="ttb" size="50%">
+    <template #title>
+      <h4>新增</h4>
+    </template>
+    <template #default>
+      <el-form>
+        <el-form-item label="商品编号">
+          <el-input placeholder="输入id" v-model="newgood.goods_id" />
+        </el-form-item>
+        <el-form-item label="打开方式">
+          <el-select v-model="newgood.open_type" placeholder="选择打开方式">
+            <el-option label="navigate" value="navigate" />
+            <el-option label="normal" value="normal" />
+            <el-option label="test" value="test" />
+            <el-option label="smail" value="smail" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="添加图片">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="http://localhost:7001/upload"
+            multiple
+            :on-success="success"
+            :on-error="error"
+            :before-upload="beforeUpload"
+          >
+            <el-icon class="el-icon--upload"><download /></el-icon>
+            <div class="el-upload__text">
+              Drop file here or <em>click to upload</em>
+            </div>
+            <template #tip>
+              <div class="el-upload__tip">
+                jpg/png files with a size less than 500kb
+              </div>
+            </template>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="cancelClick">取消</el-button>
+        <el-button type="primary" @click="confirmClick">提交</el-button>
+      </div>
+    </template>
+  </el-drawer>
   <el-drawer v-model="update" direction="rtl">
     <template #title>
       <h4>更新</h4>
@@ -76,8 +124,15 @@ import { Download } from '@element-plus/icons-vue';
 
 // 定义变量
 const update = ref(false);
+const add = ref(false);
 let swiperData = reactive({
   data: [],
+});
+let newgood = reactive({
+  goods_id: 0,
+  image_src: '',
+  open_type: '',
+  navigator_url: '',
 });
 
 let activerow = reactive({
