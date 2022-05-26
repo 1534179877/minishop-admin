@@ -47,8 +47,8 @@
         />
       </template>
     </el-table-column>-->
-    <el-table-column prop="add_time" label="open_type" width="120" />
-    <el-table-column fixed="right" label="Operations" width="120">
+    <!--    <el-table-column prop="add_time" label="添加时间" width="120" />-->
+    <el-table-column fixed="right" label="选项" width="120">
       <template #default="scope">
         <el-button type="text" size="small" @click="updaterow(scope.row)"
           >修改</el-button
@@ -59,9 +59,9 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-drawer v-model="add" direction="ttb" size="60%">
+  <el-drawer v-model="add" direction="rtl" size="60%">
     <template #title>
-      <h4>更新</h4>
+      <h4>新增</h4>
     </template>
     <template #default>
       <el-form>

@@ -1,9 +1,9 @@
 <template>
   <el-button @click="add = !add">新增</el-button>
   <el-table :data="data">
-    <el-table-column prop="goods_id" label="goods_id" width="100" />
+    <el-table-column prop="goods_id" label="商品编号" width="100" />
     <!--    <el-table-column prop="navigator_url" label="navigator_url" width="220" />-->
-    <el-table-column prop="image_src" label="image_src" width="120">
+    <el-table-column prop="image_src" label="预览图片" width="120">
       <template #default="scope">
         <img
           :src="scope.row.image_src"
@@ -12,8 +12,8 @@
         />
       </template>
     </el-table-column>
-    <el-table-column prop="open_type" label="open_type" width="120" />
-    <el-table-column fixed="right" label="Operations" width="120">
+    <el-table-column prop="open_type" label="打开方式" width="120" />
+    <el-table-column fixed="right" label="选项" width="120">
       <template #default="scope">
         <el-button type="text" size="small" @click="updaterow(scope.row)"
           >修改</el-button
@@ -25,7 +25,7 @@
     </el-table-column>
   </el-table>
 
-  <el-drawer v-model="add" direction="ttb" size="50%">
+  <el-drawer v-model="add" direction="rtl" size="50%">
     <template #title>
       <h4>新增</h4>
     </template>

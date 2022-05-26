@@ -3,9 +3,9 @@
   <el-button @click="adddata(1)">新增二级</el-button
   ><el-button @click="adddata(2)">新增三级</el-button>
   <el-table :data="data" row-key="cat_id" lazy border stripe>
-    <el-table-column prop="cat_id" label="cat_id" sortable width="180" />
-    <el-table-column prop="cat_name" label="cat_Name" width="180" />
-    <el-table-column prop="cat_icon" label="图片" width="180">
+    <el-table-column prop="cat_id" label="编号" sortable width="180" />
+    <el-table-column prop="cat_name" label="分类名" width="180" />
+    <el-table-column prop="cat_icon" label="预览图片" width="180">
       <template #default="scope">
         <h1 v-if="scope.row.cat_icon == '/full/none.jpg'">标题无图片</h1>
         <img
@@ -16,8 +16,8 @@
         />
       </template>
     </el-table-column>
-    <el-table-column prop="cat_level" label="cat_level" width="180" />
-    <el-table-column fixed="right" label="Operations" width="120">
+    <el-table-column prop="cat_level" label="分类等级" width="180" />
+    <el-table-column fixed="right" label="选项" width="120">
       <template #default="scope">
         <el-button type="text" size="small" @click="updaterow(scope)"
           >修改</el-button
@@ -28,9 +28,9 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-drawer v-model="add" direction="ttb" size="60%">
+  <el-drawer v-model="add" direction="rtl" size="60%">
     <template #title>
-      <h4>更新</h4>
+      <h4>新增</h4>
     </template>
     <template #default>
       <!-- 一级 -->
@@ -142,7 +142,6 @@
     </template>
   </el-drawer>
 </template>
-
 <script setup>
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { deletegoods, getgoods, updategoods } from '@/network/goods';

@@ -36,6 +36,10 @@ const routes = [
         path: '/admin/order',
         component: () => import('@/views/admin/children/orderAdmin'),
       },
+      {
+        path: '/admin/review',
+        component: () => import('@/views/admin/children/reviewAdmin'),
+      },
     ],
   },
   {

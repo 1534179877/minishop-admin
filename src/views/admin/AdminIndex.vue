@@ -28,13 +28,13 @@
           <el-menu-item index="swiper">
             <template #title>
               <el-icon><document-copy /></el-icon>
-              <span>轮播图</span>
+              <span>推荐</span>
             </template>
           </el-menu-item>
           <el-menu-item index="floor">
             <template #title>
               <el-icon><Fold /></el-icon>
-              <span>楼层</span>
+              <span>热门</span>
             </template>
           </el-menu-item>
           <el-menu-item index="item">
@@ -47,6 +47,12 @@
             <template #title>
               <el-icon><Sell /></el-icon>
               <span>订单</span>
+            </template>
+          </el-menu-item>
+          <el-menu-item index="review">
+            <template #title>
+              <el-icon><Notebook /></el-icon>
+              <span>意见反馈</span>
             </template>
           </el-menu-item>
         </el-menu>
@@ -68,6 +74,7 @@ import {
   Menu,
   Fold,
   DocumentCopy,
+  Notebook,
 } from '@element-plus/icons-vue';
 </script>
 

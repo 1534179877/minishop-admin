@@ -1,9 +1,10 @@
 <template>
   <div class="container">
     <el-table :data="data">
-      <el-table-column prop="_id" label="Date" width="200" />
-      <el-table-column prop="userName" label="Name" width="120" />
-      <el-table-column prop="password" label="pasword" width="120" />
+      <el-table-column prop="_id" label="用户id" width="200" />
+      <el-table-column prop="userName" label="用户名" width="120" />
+      <el-table-column prop="password" label="密码" width="120" />
+      <el-table-column prop="type" label="角色" width="120" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default>
           <el-button type="text" size="small" @click="update">update</el-button>
